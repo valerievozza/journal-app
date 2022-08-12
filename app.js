@@ -11,7 +11,7 @@ const connectDB = require('./config/db')
 dotenv.config({ path: './config/config.env' })
 
 // Passport config
-require('./config/passport.env')(passport)
+require('./config/passport.js')(passport)
 
 connectDB()
 
@@ -45,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
 app.use('/', require('./routes/index'))
+app.use('/auth', require('./routes/auth'))
 
 const PORT = process.env.PORT || 3500 
 
