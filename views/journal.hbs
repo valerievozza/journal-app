@@ -13,7 +13,7 @@
       <tr>
         <th scope="col">Title</th>
         <th scope="col">Date</th>
-        <th scope="col">Status</th>
+        <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -21,7 +21,7 @@
       {{#each entries}}
         <tr>
           <th scope="row"><a href="/entries/{{_id}}">{{title}}</a></th>
-          <td>{{createdAt}}</td>
+          <td>{{formatDate createdAt 'MMMM Do, YYYY, h:mm a'}}</td>
           <td><span class="status">{{status}}</span></td>
           <td></td>
         </tr>
