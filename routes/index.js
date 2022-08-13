@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { ensureAuth, ensureGuest } = require('../middleware/auth')
 
 // @desc    Landing page
 // @route   GET /
@@ -9,16 +10,17 @@ router.get('/', (req, res) => {
 
 // @desc    Login
 // @route   GET /login
-router.get('/login', (req, res) => {
+router.get('/login', ensureGuest, (req, res) => {
   res.render('login', {
     layout: 'login'
   })
 })
 
-// @desc    User homepage
-// @route   GET /home
-router.get('/home', (req, res) => {
-  res.render('home')
+// @desc    User profile page
+// @route   GET /profile
+router.get('/profile', ensureAuth, (req, res) => {
+  console.log(req.user)
+  res.render('profile')
 })
 
 module.exports = router
