@@ -1,0 +1,34 @@
+<div class="journal-main">
+  <h6>My Journal</h6>
+  <h3>Welcome, {{name}}</h3>
+  <p>Here is your journal</p>
+  <div>
+    <a href="/entries/add" class="btn btn-primary btn-lg"><i class="fa-solid fa-pen fa-fw"></i> Write</a>
+  </div>
+</div>
+{{#if entries}}
+  <div class="entry-list">
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each entries}}
+        <tr>
+          <th scope="row"><a href="/entries/{{_id}}">{{title}}</a></th>
+          <td>{{createdAt}}</td>
+          <td><span class="status">{{status}}</span></td>
+          <td></td>
+        </tr>
+      {{/each}}    
+    </tbody>
+  </table>
+{{else}}
+  <p class="entry-list">You have no entries</p>
+{{/if}}
+  </div>

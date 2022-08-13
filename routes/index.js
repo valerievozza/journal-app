@@ -18,17 +18,18 @@ router.get('/login', ensureGuest, (req, res) => {
   })
 })
 
-// @desc    User profile page
-// @route   GET /profile
-router.get('/profile', ensureAuth, async (req, res) => {
+// @desc    User journal
+// @route   GET /journal
+router.get('/journal', ensureAuth, async (req, res) => {
   try {
     const entries = await Entry.find({ user: req.user.id }).lean()
-    res.render('profile', {
+    res.render('journal', {
       name: req.user.firstName,
       entries
     })
   } catch (err) {
     console.error(err)
+    res.render('/error/500')
   }
 })
 

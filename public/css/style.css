@@ -7,3 +7,12 @@
 .body-style {
   margin-top: 30px;
 }
+
+.entry-list {
+  float: right;
+  width: 300px;
+}
+
+.journal-main {
+  float: left;
+}
