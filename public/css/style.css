@@ -16,3 +16,13 @@
 .journal-main {
   float: left;
 }
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chip {
+  display: flex;
+  flex-direction: column;
+}

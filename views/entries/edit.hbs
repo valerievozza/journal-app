@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <h3>Edit Entry</h3>
-  <form action="/entries" method="POST">
+  <form action="/entries/{{entry._id}}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
     <div class="form-group">
       <label class="col-form-label mt-4" for="title">Title</label>
       <input type="text" class="form-control" placeholder="Title" id="title" name="title" value="{{entry.title}}">
