@@ -26,3 +26,24 @@
   display: flex;
   flex-direction: column;
 }
+
+.entry {
+  margin-right: 10px;
+}
+
+@media all and (max-width: 1111px) {
+  .entry-list {
+    width: 50%;
+  }
+}
+
+@media all and (max-width: 777px) {
+  .entry-list {
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+.img-small {
+  width: 180px;
+}
