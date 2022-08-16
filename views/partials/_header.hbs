@@ -11,19 +11,22 @@
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
-        {{!-- Add if else for logged in user (should display lis for my journal, logout) & guest (should display li for login) --}}
         <li class="nav-item">
           <a class="nav-link" href="/entries">Recent Entries</a>
         </li>
+        {{#if user}}
         <li class="nav-item">
           <a class="nav-link" href="/journal">My Journal</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/auth/logout">Logout</a>
         </li>
+        {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        {{/if}}
+        {{!-- Add if else for logged in user (should display lis for my journal, logout) & guest (should display li for login) --}}
       </ul>
       {{!-- <form class="d-flex">
         <input class="form-control me-sm-2" type="text" placeholder="Search">

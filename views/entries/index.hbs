@@ -2,7 +2,7 @@
 <div class="row">
   {{#each entries}}
     <div class="card">
-      <div class="card-body">
+      <div class="card-body card-entry">
         <div class="entry">
           <h4 class="card-title"><a href="/entries/{{_id}}">{{title}}</a></h4>
           <p class="card-text">{{stripTags (truncate body 300)}}</p>

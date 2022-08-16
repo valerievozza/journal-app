@@ -3,6 +3,7 @@ const router = express.Router()
 const { ensureAuth } = require('../middleware/auth')
 
 const Entry = require('../models/Entry')
+const Note = require('../models/Note')
 
 // @desc    Show add page
 // @route   GET /entries/add
@@ -141,6 +142,22 @@ router.get('/user/:userId', ensureAuth, async (req, res) => {
 
     res.render('entries/index', {
       entries,
+    })
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
+
+// @desc    Process add note form
+// @route   POST /entries/:id/notes/add_note
+router.post('/:id/notes/add_note', ensureAuth, async (req, res) => {
+  try {
+    req.body.user = req.user.id
+    await Note.create(req.body)
+    console.log(req.body)
+    res.redirect('/entries/show', {
+      entry
     })
   } catch (err) {
     console.error(err)

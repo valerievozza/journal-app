@@ -1,27 +1,59 @@
 {{!-- CHANGE ALL THE CLASSES TO BOOTSWATCH --}}
-
-<div class="row">
-    <div class="col s12 m8">
-        <h3>{{entry.title}}
-            <small>{{{editIcon entry.user user entry._id false}}}</small>
-        </h3>
-        <div class="card entry">
-            <div class="card-content">
-                <span class="card-title">{{formatDate date 'MMMM Do, YYYY, h:mm a'}}</span>
-                {{{entry.body}}}
+<div class="container-fluid">
+    <div class="container-fluid card-entry">
+        <div class="container-fluid">
+            <h3>{{entry.title}}
+                <small>{{{editIcon entry.user user entry._id false}}}</small>
+            </h3>
+            <div class="card-entry">
+                <div class="card-content">
+                    <span class="card-title">{{formatDate entry.createdAt 'MMMM Do, YYYY, h:mm a'}}</span>
+                    {{{entry.body}}}
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid card-author">
+            <div class="card border-light mb-3">
+                <div class="card-content author-card">
+                    {{!Change: add 'referrerpolicy="no-referrer"' to stop Google from blocking access to the profile images}}
+                    <img src="{{entry.user.image}}" referrerpolicy="no-referrer" class="circle responsive-img img-small">
+                    <p class="card-title">{{entry.user.displayName}}</p>
+                </div>
+                <div class="card-action">
+                    <a href="/entries/user/{{entry.user._id}}">More from {{entry.user.firstName}}</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col s12 m4">
-        <div class="card center-align">
-            <div class="card-content">
-                <span class="card-title">{{entry.user.displayName}}</span>
-                {{!Change: add 'referrerpolicy="no-referrer"' to stop Google from blocking access to the profile images}}
-                <img src="{{entry.user.image}}" referrerpolicy="no-referrer" class="circle responsive-img img-small">
+</div>
+<div class="container-fluid">
+    <table class="table table-hover">
+    <thead>
+        <h3>Notes</h3>
+        <form action="/entries/:id/notes/add_note" method="POST">
+            <div class="form-group">
+                <label for="body" class="form-label mt-4">Leave a Note</label>
+                <textarea class="form-control" id="body" name="body" rows="3"></textarea>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="#">Cancel</a>
             </div>
-            <div class="card-action">
-                <a href="/entries/user/{{entry.user._id}}">More from {{entry.user.firstName}}</a>
-            </div>
-        </div>
-    </div>
+        </form>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each notes}}
+        <tr>
+        <th scope="row">{{{body}}}</th>
+        <td>{{user}}</td>
+        <td>Edit</td>
+        <td>Delete</td>
+        </tr>
+        {{/each}}
+    </tbody>
+    </table>
 </div>
