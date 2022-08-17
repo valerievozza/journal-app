@@ -24,6 +24,20 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
+// @desc    Process add note form
+// @route   POST /entries/add_note
+router.post('/add_note', ensureAuth, async (req, res) => {
+  try {
+    req.body.user = req.user.id
+    await Note.create(req.body)
+    console.log(req.body)
+    res.redirect('/:id')
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
+
 // @desc    Show all entries
 // @route   GET /entries
 router.get('/', ensureAuth, async (req, res) => {
@@ -46,8 +60,10 @@ router.get('/', ensureAuth, async (req, res) => {
 // @route   GET /entries/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
-    let entry = await Entry.findById(req.params.id)
+    const entry = await Entry.findById(req.params.id)
       .populate('user')
+      .lean()
+    const notes = await Note.find()
       .lean()
 
     if (!entry) {
@@ -55,7 +71,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
     }
 
     res.render('entries/show', {
-      entry
+      entry, notes
     })
   } catch (err) {
     console.error(err)
@@ -142,22 +158,6 @@ router.get('/user/:userId', ensureAuth, async (req, res) => {
 
     res.render('entries/index', {
       entries,
-    })
-  } catch (err) {
-    console.error(err)
-    res.render('error/500')
-  }
-})
-
-// @desc    Process add note form
-// @route   POST /entries/:id/notes/add_note
-router.post('/:id/notes/add_note', ensureAuth, async (req, res) => {
-  try {
-    req.body.user = req.user.id
-    await Note.create(req.body)
-    console.log(req.body)
-    res.redirect('/entries/show', {
-      entry
     })
   } catch (err) {
     console.error(err)
