@@ -22,7 +22,9 @@ router.get('/login', ensureGuest, (req, res) => {
 // @route   GET /journal
 router.get('/journal', ensureAuth, async (req, res) => {
   try {
-    const entries = await Entry.find({ user: req.user.id }).lean()
+    const entries = await Entry.find({ user: req.user.id })
+    .sort({ createdAt: 'desc' })
+    .lean()
     res.render('journal', {
       name: req.user.firstName,
       entries

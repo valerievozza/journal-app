@@ -16,7 +16,8 @@ const NoteSchema = new mongoose.Schema({
   },
   entryId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Entry'
+    ref: 'Entry',
+    required: true
   },
   createdAt: {
     type: Date,

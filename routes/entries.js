@@ -24,14 +24,27 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Process add note form
-// @route   POST /entries/add_note
-router.post('/add_note', ensureAuth, async (req, res) => {
+// @desc    Add note to entry
+// @route   PUT /entries/:id
+router.put('/add_note', ensureAuth, async (req, res) => {
   try {
-    req.body.user = req.user.id
-    await Note.create(req.body)
-    console.log(req.body)
-    res.redirect('/:id')
+    let entry = await Entry.findById(req.params.id).lean()
+
+    if (!entry) {
+      return res.render('error/404')
+    }
+
+    // if (entry.user != req.user.id) {
+    //   res.redirect('/entries')
+    // } else {
+    await Entry.findOneAndUpdate({ _id: req.params.id }, req.notes, {
+        //user: req.user.id,
+        new: true,
+        runValidators: true
+      })
+
+      res.redirect('/journal')
+    // }
   } catch (err) {
     console.error(err)
     res.render('error/500')
@@ -56,22 +69,28 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show single entry
+//! change entry schema to include notes field -- add note form can actually be a put request to update entry, adding to notes property
+
+// @desc    Show single entry with notes
 // @route   GET /entries/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     const entry = await Entry.findById(req.params.id)
       .populate('user')
       .lean()
-    const notes = await Note.find()
-      .lean()
+    
+    // this may or may not be working right now
+    // const notes = await Entry.find()
+    //   .populate('id')
+    //   .sort({ createdAt: 'desc' })
+    //   .lean()
 
     if (!entry) {
       return res.render('/error/404')
     }
 
     res.render('entries/show', {
-      entry, notes
+      entry, //notes
     })
   } catch (err) {
     console.error(err)
@@ -145,7 +164,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
 // @desc    User entries
 // @route   GET /entries/user/:userId
 
-// CHANGE THIS TO RENDER USER JOURNAL PAGE
+//! CHANGE THIS TO RENDER PUBLIC USER JOURNAL PAGE
 router.get('/user/:userId', ensureAuth, async (req, res) => {
   try {
     const entries = await Entry.find({

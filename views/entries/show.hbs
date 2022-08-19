@@ -30,7 +30,8 @@
     <table class="table table-hover">
     <thead>
         <h3>Notes</h3>
-        <form action="/add_note" method="POST">
+        <form action="/entries/add_note" method="POST">
+        <input type="hidden" name="_method" value="PUT">
             <div class="form-group">
                 <label for="body" class="form-label mt-4">Leave a Note</label>
                 <textarea class="form-control" id="body" name="body" rows="3"></textarea>
@@ -41,17 +42,17 @@
         <tr>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
+            {{!-- <th scope="col"></th>
+            <th scope="col"></th> --}}
         </tr>
     </thead>
     <tbody>
         {{#each notes}}
         <tr>
             <td scope="row">{{{body}}}</th>
-            <td>{{user}}</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td>{{user.displayName}}</td>
+            {{!-- <td>Edit</td>
+            <td>Delete</td> --}}
         </tr>
         {{/each}}
     </tbody>

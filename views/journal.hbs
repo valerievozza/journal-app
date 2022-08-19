@@ -1,45 +1,46 @@
-<div class="journal-main">
-  <h6>My Journal</h6>
-  <h3>Welcome, {{name}}</h3>
-  <p>Here is your journal</p>
-  <div>
-    <a href="/entries/add" class="btn btn-primary btn-lg"><i class="fa-solid fa-pen fa-fw"></i> Write</a>
+<div class="container-fluid">
+  <div class="journal-main">
+    <h6>My Journal</h6>
+    <h3>Welcome, {{name}}</h3>
+    <p>Here is your journal</p>
+    <div>
+      <a href="/entries/add" class="btn btn-primary btn-lg"><i class="fa-solid fa-pen fa-fw"></i> Write</a>
+    </div>
   </div>
-</div>
-{{#if entries}}
-  <div class="entry-list">
-    <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Date</th>
-        <th scope="col">Status</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each entries}}
+  {{#if entries}}
+    <div class="entry-list">
+      <table class="table table-hover">
+      <thead>
         <tr>
-          <th scope="row"><a href="/entries/{{_id}}">{{title}}</a></th>
-          <td>{{formatDate createdAt 'MMMM Do, YYYY, h:mm a'}}</td>
-          <td><span class="status">{{status}}</span></td>
-          <td>
-            <a href="/entries/edit/{{_id}}" class="btn btn-link btn-float"><i class="fas fa-edit"></i></a>
-          </td>
-          <td>
-            <form action="/entries/{{_id}}" method="POST" id="delete-form">
-              <input type="hidden" name="_method" value="DELETE">
-              <button type="submit" class="btn btn-link">
-                <i class="fas fa-trash"></i>
-              </button>
-            </form>
-          </td>
+          <th scope="col">Title</th>
+          <th scope="col">Date</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
         </tr>
-      {{/each}}    
-    </tbody>
-  </table>
-{{else}}
-  <p class="entry-list">You have no entries</p>
-{{/if}}
-  </div>
+      </thead>
+      <tbody>
+        {{#each entries}}
+          <tr>
+            <th scope="row"><a href="/entries/{{_id}}">{{title}}</a></th>
+            <td>{{formatDate createdAt 'MMMM Do, YYYY, h:mm a'}}</td>
+            <td><span class="status">{{status}}</span></td>
+            <td>
+              <div class="edit-delete">
+                <a href="/entries/edit/{{_id}}" class="btn btn-link btn-float"><i class="fas fa-edit"></i></a>
+                <form action="/entries/{{_id}}" method="POST" id="delete-form">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="btn btn-link">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {{/each}}    
+      </tbody>
+    </table>
+  {{else}}
+    <p class="entry-list">You have no entries</p>
+  {{/if}}
+</div>
+</div>
