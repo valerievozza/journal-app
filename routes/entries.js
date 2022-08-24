@@ -24,33 +24,6 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Add note to entry
-// @route   PUT /entries/:id
-router.put('/add_note', ensureAuth, async (req, res) => {
-  try {
-    let entry = await Entry.findById(req.params.id).lean()
-
-    if (!entry) {
-      return res.render('error/404')
-    }
-
-    // if (entry.user != req.user.id) {
-    //   res.redirect('/entries')
-    // } else {
-    await Entry.findOneAndUpdate({ _id: req.params.id }, req.notes, {
-        //user: req.user.id,
-        new: true,
-        runValidators: true
-      })
-
-      res.redirect('/journal')
-    // }
-  } catch (err) {
-    console.error(err)
-    res.render('error/500')
-  }
-})
-
 // @desc    Show all entries
 // @route   GET /entries
 router.get('/', ensureAuth, async (req, res) => {
@@ -69,8 +42,6 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-//! change entry schema to include notes field -- add note form can actually be a put request to update entry, adding to notes property
-
 // @desc    Show single entry with notes
 // @route   GET /entries/:id
 router.get('/:id', ensureAuth, async (req, res) => {
@@ -79,22 +50,38 @@ router.get('/:id', ensureAuth, async (req, res) => {
       .populate('user')
       .lean()
     
-    // this may or may not be working right now
-    // const notes = await Entry.find()
-    //   .populate('id')
-    //   .sort({ createdAt: 'desc' })
-    //   .lean()
+    //! not working right now
+    const notes = await Note.find({entryId: req.params.id})
+      .populate('entryId')
+      .sort({ createdAt: 'desc' })
+      .lean()
 
     if (!entry) {
       return res.render('/error/404')
     }
 
     res.render('entries/show', {
-      entry, //notes
+      entry, notes
     })
   } catch (err) {
     console.error(err)
     res.render('error/404')
+  }
+})
+
+// @desc    Process add note
+// @route   POST /entries/:id/note
+router.post('/:id/note', async (req, res) => {
+  try {
+    req.body.user = req.user.id
+    req.body.entryId = req.params.id
+    await Note.create(req.body)
+    
+    res.redirect('back')
+
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
   }
 })
 

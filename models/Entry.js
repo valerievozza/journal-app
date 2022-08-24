@@ -19,15 +19,14 @@ const EntrySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  notes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Note',
-    default: () => ({}),
-  }],
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  notes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Note'
+  }]
 })
 
 module.exports = mongoose.model('Entry', EntrySchema)
