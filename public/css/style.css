@@ -70,3 +70,7 @@ footer {
 .edit-delete {
   display: flex;
 }
+
+.notes {
+  margin-bottom: 10px;
+}
