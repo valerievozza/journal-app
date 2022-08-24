@@ -42,8 +42,9 @@
         <tr>
             <th scope="col"></th>
             <th scope="col"></th>
-            {{!-- <th scope="col"></th>
-            <th scope="col"></th> --}}
+            <th></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -51,8 +52,9 @@
         <tr>
             <td scope="row">{{{body}}}</th>
             <td>{{user.displayName}}</td>
-            {{!-- <td>Edit</td>
-            <td>Delete</td> --}}
+            <td>{{formatDate createdAt 'MMMM Do, YYYY'}}</td>
+            <td>Edit</td>
+            <td>Delete</td>
         </tr>
         {{/each}}
     </tbody>

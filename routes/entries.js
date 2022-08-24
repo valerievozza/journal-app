@@ -50,9 +50,8 @@ router.get('/:id', ensureAuth, async (req, res) => {
       .populate('user')
       .lean()
     
-    //! not working right now
     const notes = await Note.find({entryId: req.params.id})
-      .populate('entryId')
+      .populate('user')
       .sort({ createdAt: 'desc' })
       .lean()
 
