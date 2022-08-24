@@ -19,7 +19,6 @@ html {
 
 .entry-list {
   float: right;
-  width: 33%;
 }
 
 .journal-main {
@@ -71,6 +70,6 @@ footer {
   display: flex;
 }
 
-.notes {
-  margin-bottom: 10px;
+.btn {
+  margin-top: 10px;
 }

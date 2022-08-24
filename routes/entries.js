@@ -161,7 +161,7 @@ router.get('/user/:userId', ensureAuth, async (req, res) => {
       .sort({ createdAt: 'desc' })
       .lean()
 
-    res.render('entries/index', {
+    res.render('journal', {
       entries,
     })
   } catch (err) {

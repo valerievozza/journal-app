@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div class="journal-main">
     <h6>My Journal</h6>
-    <h3>Welcome, {{name}}</h3>
-    <p>Here is your journal</p>
+    <h3>Welcome {{name}}</h3>
+    <p>This is the user's journal page</p>
     <div>
       <a href="/entries/add" class="btn btn-primary btn-lg"><i class="fa-solid fa-pen fa-fw"></i> Write</a>
     </div>
@@ -15,26 +15,14 @@
           <th scope="col">Title</th>
           <th scope="col">Date</th>
           <th scope="col">Status</th>
-          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         {{#each entries}}
           <tr>
             <td scope="row"><a href="/entries/{{_id}}">{{title}}</a></td>
-            <td>{{formatDate createdAt 'MMMM Do, YYYY, h:mm a'}}</td>
+            <td>{{formatDate createdAt 'MMMM Do, YYYY'}}</td>
             <td><span class="status">{{status}}</span></td>
-            <td>
-              <div class="edit-delete">
-                <a href="/entries/edit/{{_id}}" class="btn btn-link btn-float"><i class="fas fa-edit"></i></a>
-                <form action="/entries/{{_id}}" method="POST" id="delete-form">
-                  <input type="hidden" name="_method" value="DELETE">
-                  <button type="submit" class="btn btn-link">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
-              </div>
-            </td>
           </tr>
         {{/each}}    
       </tbody>
