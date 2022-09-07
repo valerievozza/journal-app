@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="journal-main">
-    <h6>My Journal</h6>
-    <h3>Welcome {{name}}</h3>
+    <h6>{{user.displayName}}</h6>
     <p>This is the user's journal page</p>
     <div>
+      {{!-- ! Fix this so that it only displays when user is looking at their own journal --}}
       <a href="/entries/add" class="btn btn-primary btn-lg"><i class="fa-solid fa-pen fa-fw"></i> Write</a>
     </div>
   </div>

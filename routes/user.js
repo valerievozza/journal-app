@@ -4,91 +4,39 @@ const { ensureAuth } = require('../middleware/auth')
 
 const Entry = require('../models/Entry')
 const Note = require('../models/Note')
+const User = require('../models/User')
 
-// @desc    Show add page
-// @route   GET /entries/add
-router.get('/add', ensureAuth, (req, res) => {
-  res.render('entries/add')
-})
-
-// @desc    Process add form
-// @route   POST /entries
-router.post('/', ensureAuth, async (req, res) => {
-  try {
-    req.body.user = req.user.id
-    await Entry.create(req.body)
-    res.redirect('/journal')
-  } catch (err) {
-    console.error(err)
-    res.render('error/500')
-  }
-})
-
-// @desc    Show all entries
-// @route   GET /entries
-router.get('/', ensureAuth, async (req, res) => {
-  try {
-    const entries = await Entry.find({ status: 'public' })
-      .populate('user')
-      .sort({ createdAt: 'desc' })
-      .lean()
-
-    res.render('entries/index', {
-      entries
-    })
-  } catch (err) {
-    console.error(err)
-    res.render('error/500')
-  }
-})
-
-// @desc    Show single entry with notes
-// @route   GET /entries/:id
+// @desc    Show user journal
+// @route   GET /user/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
-    const entry = await Entry.findById(req.params.id)
-      .populate('user')
+    const user = await User.find({
+      _id: req.params.id
+    })
       .lean()
-    
-    const notes = await Note.find({entryId: req.params.id})
+
+    const entries = await Entry.find({
+      user: req.params.id,
+      status: 'public',
+    })
       .populate('user')
       .sort({ createdAt: 'desc' })
       .lean()
 
-    if (!entry) {
-      return res.render('error/404')
-    }
-
-    res.render('entries/show', {
-      entry, notes
+    res.render('journal', {
+      user, entries
     })
-  } catch (err) {
-    console.error(err)
-    res.render('error/404')
-  }
-})
-
-// @desc    Process add note
-// @route   POST /entries/:id/note
-router.post('/:id/note', async (req, res) => {
-  try {
-    req.body.user = req.user.id
-    req.body.entryId = req.params.id
-    await Note.create(req.body)
-    
-    res.redirect('back')
-
   } catch (err) {
     console.error(err)
     res.render('error/500')
   }
 })
 
-// @desc    Show edit page
-// @route   GET /entries/edit/:id
+// @desc    Show description page
+// @route   GET /user/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
-    const entry = await Entry.findOne({
+    const user = await Entry.findOne({
       _id: req.params.id
     }).lean()
   
@@ -97,10 +45,10 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
     }
   
     if (entry.user != req.user.id) {
-      res.redirect('/entries')
+      res.redirect('/')
     } else {
-      res.render('entries/edit', {
-        entry,
+      res.render('user/edit', {
+        description,
       })
     }
   } catch (err) {

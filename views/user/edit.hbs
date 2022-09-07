@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <h3>Edit Journal Description</h3>
+  <form action="/user/{{_id}}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="form-group">
+      <label class="col-form-label mt-4" for="journalTitle">Journal Title</label>
+      <input type="text" class="form-control" placeholder="Journal Title" id="journalTitle" name="journalTitle" value="{{user.description}}">
+    </div>
+    <div class="form-group">
+      <label for="description" class="form-label mt-4">Your description here</label>
+      <textarea class="form-control" id="description" name="description" rows="3">{{user.description}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/journal" class="btn btn-link">Cancel</a>
+  </form>
+</div>
